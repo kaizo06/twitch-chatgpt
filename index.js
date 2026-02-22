@@ -83,4 +83,44 @@ bot.onMessage(async (channel, user, message, self) => {
         if (elapsedTime < COOLDOWN_DURATION) {
             bot.say(channel, `Cooldown active. Please wait ${COOLDOWN_DURATION - elapsedTime.toFixed(1)} seconds before sending another message.`);
             return;
-}
+        }
+        lastResponseTime = currentTime;
+        const response = await groqOps.make_openai_call(message);
+        bot.say(channel, response);
+    }
+
+    const command = commandNames.find(cmd => message.toLowerCase().startsWith(cmd));
+    if (command) {
+        if (elapsedTime < COOLDOWN_DURATION) {
+            bot.say(channel, `Cooldown active. Please wait ${COOLDOWN_DURATION - elapsedTime.toFixed(1)} seconds before sending another message.`);
+            return;
+        }
+        lastResponseTime = currentTime;
+
+        let text = message.slice(command.length).trim();
+        if (SEND_USERNAME === 'true') {
+            text = `Message from user ${user.username}: ${text}`;
+        }
+
+        const response = await groqOps.make_openai_call(text);
+        if (response.length > maxLength) {
+            const messages = response.match(new RegExp(`.{1,${maxLength}}`, 'g'));
+            messages.forEach((msg, index) => {
+                setTimeout(() => {
+                    bot.say(channel, msg);
+                }, 1000 * index);
+            });
+        } else {
+            bot.say(channel, response);
+        }
+
+        if (ENABLE_TTS === 'true') {
+            try {
+                const ttsAudioUrl = await bot.sayTTS(channel, response, user['userstate']);
+                notifyFileChange(ttsAudioUrl);
+            } catch (error) {
+                console.error('TTS Error:', error);
+            }
+        }
+    }
+});
