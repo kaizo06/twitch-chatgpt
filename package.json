@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/pedrojlazevedo/twitch-chatgpt#readme",
   "dependencies": {
-    "groq-sdk": "^0.5.1",
+    "groq-sdk": "^0.37.0",
     "cron": "^3.1.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
