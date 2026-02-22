@@ -68,7 +68,7 @@ bot.connect(
         console.log('Bot connected!');
     },
     error => {
-        console.error('Bot couldn't connect!', error);
+        console.error("Bot couldn't connect!", error);
     }
 );
 
