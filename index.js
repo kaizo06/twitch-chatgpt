@@ -20,7 +20,7 @@ app.set('view engine', 'ejs');
 // Load environment variables
 const GPT_MODE = process.env.GPT_MODE || 'CHAT';
 const HISTORY_LENGTH = process.env.HISTORY_LENGTH || 5;
-const GROQ_API_KEY = process.env.GROQ_API_KEY || '';  // ← CHANGÉ
+const GROQ_API_KEY = process.env.GROQ_API_KEY || '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';  // ← CHANGÉ
 const MODEL_NAME = process.env.MODEL_NAME || 'llama3-8b-8192';  // ← Modèle gratuit Groq
 const TWITCH_USER = process.env.TWITCH_USER || 'KaiZo06';
 const TWITCH_AUTH = process.env.TWITCH_AUTH || 'oauth:86qkfohattwefmjnk2y25dlgrzhbnp';
